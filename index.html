@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Min Oo · AI Engineer & Data Scientist</title>
+<meta name="description" content="La Min Oo (Zyne): AI engineer and data scientist in Bangkok. LLM agents, machine learning and the products around them. Open to roles in Germany / EU, Singapore, Taiwan and Japan.">
+<meta property="og:title" content="La Min Oo · AI Engineer & Data Scientist">
+<meta property="og:description" content="LLM agents, machine learning and the products around them. Open to relocation.">
+<!-- TODO: after deploying, set og:image to an absolute URL, e.g. https://zylocope.github.io/img/og.png -->
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#05060c">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one fixed WebGL particle field behind four scroll sections; each section morphs the field (wave, vortex, ring, starfield). Single dark look by design. */
+:root{
+  --bg:#05060c; --line:rgba(170,185,255,.14); --card:rgba(9,11,22,.62);
+  --fg:#eef0fa; --muted:rgba(238,240,250,.64);
+  --cool:#6c8cff; --warm:#ff6a3d;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;overflow-x:hidden}
+a{color:inherit}
+#field{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);
+  background:linear-gradient(90deg,var(--cool),var(--warm));z-index:5}
+.stage-tag{position:fixed;right:20px;top:calc(env(safe-area-inset-top,0px) + 16px);z-index:5;font:500 11px var(--mono);letter-spacing:.14em;
+  color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:5px 12px;background:var(--card);backdrop-filter:blur(8px)}
+section{position:relative;z-index:2;padding-inline:20px}
+.wrap{max-width:1100px;margin:0 auto}
+
+/* reveal: only hidden once JS is running, so the page is complete without it */
+.js .reveal{opacity:0;transform:translateY(34px);filter:blur(6px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1),filter .9s}
+.js .reveal.in{opacity:1;transform:none;filter:none}
+.js .reveal.d1{transition-delay:.08s}.js .reveal.d2{transition-delay:.16s}.js .reveal.d3{transition-delay:.24s}.js .reveal.d4{transition-delay:.32s}.js .reveal.d5{transition-delay:.4s}
+
+/* 1 hero */
+.hero{min-height:100vh;display:grid;place-items:center;text-align:center}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);backdrop-filter:blur(8px);
+  border-radius:99px;padding:6px 14px;font:500 12px var(--mono);letter-spacing:.06em;color:var(--muted)}
+.pill i{width:7px;height:7px;border-radius:50%;background:var(--warm);box-shadow:0 0 10px var(--warm)}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(40px,7vw,84px);line-height:.98;letter-spacing:-.02em;margin:22px auto 18px;max-width:14ch;text-wrap:balance}
+.grad{background:linear-gradient(90deg,var(--cool),var(--warm));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);max-width:52ch;margin:0 auto 30px;font-size:17px}
+.ctas{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font:500 14px var(--body);border-radius:99px;padding:11px 20px;border:1px solid var(--line);background:var(--card)}
+.btn.primary{background:var(--fg);color:var(--bg);border-color:transparent}
+.btn.primary span{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--bg);font-size:11px}
+.btn:focus-visible,.proj:focus-visible{outline:2px solid var(--warm);outline-offset:3px}
+.hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font:12px var(--mono);color:var(--muted);letter-spacing:.12em}
+
+/* avatar (falls back to initials when img/headshot.jpg is missing) */
+.avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 18px;position:relative;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--cool),var(--warm));padding:2px}
+.avatar img,.avatar .init{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;background:#0b0e1c}
+.avatar .init{display:none;place-items:center;font:600 30px var(--display);color:var(--fg)}
+.avatar.noimg img{display:none}.avatar.noimg .init{display:grid}
+.where{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px;font:500 12px var(--mono);color:var(--muted)}
+.where span{border:1px solid var(--line);border-radius:99px;padding:4px 10px;background:var(--card)}
+
+/* 2 numbers (vortex) */
+.numbers{min-height:110vh;display:grid;align-content:center;padding-block:80px}
+.label{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 16px}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(32px,4.6vw,56px);line-height:1.02;letter-spacing:-.015em;margin:0 0 40px;max-width:18ch;text-wrap:balance}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{border:1px solid var(--line);background:var(--card);backdrop-filter:blur(10px);border-radius:14px;padding:22px 20px}
+.stat b{display:block;font-family:var(--display);font-weight:600;font-size:clamp(34px,4vw,52px);line-height:1;font-variant-numeric:tabular-nums}
+.stat span{display:block;margin-top:10px;font-size:14px;color:var(--muted)}
+.marquee{margin-top:56px;overflow:hidden;border-block:1px solid var(--line);padding-block:14px;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.marquee .row{display:flex;gap:40px;white-space:nowrap;font-family:var(--display);font-size:clamp(22px,3vw,34px);color:var(--muted);will-change:transform}
+.marquee .row i{font-style:normal;color:var(--warm)}
+
+.now{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:44px}
+.job{border:1px solid var(--line);background:var(--card);backdrop-filter:blur(10px);border-radius:14px;padding:22px 22px 20px}
+.job .when{font:500 12px var(--mono);color:var(--muted)}
+.job h3{font-family:var(--display);font-weight:600;font-size:21px;margin:6px 0 4px}
+.job .org{color:var(--cool);font-size:14px;margin:0 0 10px}
+.job ul{margin:0;padding-left:18px;color:var(--muted);font-size:14.5px}
+.job li{margin:4px 0}
+
+/* 3 projects (ring) */
+.work{padding-block:120px 80px}
+.projects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.proj{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  background:var(--card);backdrop-filter:blur(10px);transition:border-color .3s,transform .3s}
+.proj:hover{border-color:rgba(255,106,61,.5);transform:translateY(-3px)}
+.proj .body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:8px;flex:1}
+.proj .meta{display:flex;align-items:center;gap:10px;font:500 12px var(--mono);color:var(--muted)}
+.proj h3{font-family:var(--display);font-weight:600;font-size:23px;margin:0}
+.proj p{margin:0;color:var(--muted);font-size:15px}
+.proj .stack{font:12px var(--mono);color:var(--cool)}
+.proof{color:var(--warm)}
+.proj .tag{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--warm);
+  border:1px solid rgba(255,106,61,.4);border-radius:99px;padding:2px 9px}
+.plinks{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.plinks a{font:500 13px var(--body);text-decoration:none;border:1px solid var(--line);border-radius:99px;padding:6px 13px;transition:border-color .2s,background .2s}
+.plinks a:hover{border-color:rgba(255,106,61,.6);background:rgba(255,106,61,.08)}
+.plinks a.demo{background:var(--fg);color:var(--bg);border-color:transparent}
+.plinks a:focus-visible,.shot:focus-visible{outline:2px solid var(--warm);outline-offset:3px}
+
+/* screenshot frame: shows img/projects/<name>.jpg (or .png); designed cover art until the file exists */
+.shot{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--line);background:#0a0d1b}
+.shot::before{content:"";position:absolute;inset:0 0 auto 0;height:26px;z-index:2;
+  background:radial-gradient(circle at 14px 13px,#ff6a3d 3.5px,transparent 4.5px),radial-gradient(circle at 28px 13px,#f5c04a 3.5px,transparent 4.5px),
+  radial-gradient(circle at 42px 13px,#4fd1a1 3.5px,transparent 4.5px),rgba(5,6,12,.72);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.shot img{position:absolute;inset:26px 0 0 0;width:100%;height:calc(100% - 26px);object-fit:cover;object-position:top center;transition:transform .8s cubic-bezier(.16,1,.3,1)}
+.proj:hover .shot img{transform:scale(1.035)}
+.shot .ph{position:absolute;inset:26px 0 0 0;display:none;place-items:center;
+  background:radial-gradient(120% 90% at 15% 110%,var(--c1),transparent 60%),radial-gradient(90% 80% at 100% 0%,var(--c2),transparent 55%),#080a16}
+.shot .ph::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.13) 1px,transparent 1.2px);background-size:18px 18px;
+  mask-image:radial-gradient(ellipse at 50% 50%,#000 20%,transparent 75%)}
+.shot .ph b{position:relative;z-index:1;font:700 clamp(46px,7vw,84px)/1 var(--display);letter-spacing:-.04em;color:rgba(255,255,255,.92);text-shadow:0 10px 40px rgba(0,0,0,.4)}
+.shot .ph small{position:absolute;left:16px;bottom:12px;z-index:1;font:500 11px var(--mono);letter-spacing:.1em;color:rgba(255,255,255,.6);text-transform:uppercase}
+.shot.noimg img{display:none}.shot.noimg .ph{display:grid}
+
+.proj.feature{border-color:rgba(255,106,61,.35)}
+.proj.feature,.proj.wide{grid-column:1 / -1;flex-direction:row}
+.proj.wide .shot{flex:1;aspect-ratio:auto;min-height:260px;border-bottom:0;border-right:1px solid var(--line)}
+.proj.wide .body{flex:1;justify-content:center}
+.proj.feature .shot{flex:1.25;aspect-ratio:auto;min-height:340px;border-bottom:0;border-right:1px solid var(--line)}
+.proj.feature .body{flex:1;padding:28px 28px 26px;justify-content:center}
+.proj.feature h3{font-size:30px}
+
+/* 4 contact (starfield) */
+.contact{min-height:100vh;display:grid;place-items:center;text-align:center;padding-block:80px}
+.contact h2{margin:0 auto 26px;max-width:16ch}
+.big{font-family:var(--display);font-weight:700;font-size:clamp(56px,13vw,170px);line-height:.9;letter-spacing:-.03em;margin:0 0 30px;will-change:transform}
+.links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.avail{color:var(--muted);margin:18px auto 0;max-width:46ch;font-size:15px}
+footer{position:relative;z-index:2;font:12px var(--mono);color:var(--muted);text-align:center;padding-block:24px 40px}
+
+@media (max-width:760px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .projects{grid-template-columns:minmax(0,1fr)}
+  .now{grid-template-columns:minmax(0,1fr)}
+  .proj.feature,.proj.wide{flex-direction:column}
+  .proj.feature .shot,.proj.wide .shot{aspect-ratio:16/10;min-height:0;border-right:0;border-bottom:1px solid var(--line)}
+  .proj.feature .body{padding:20px 22px 22px}
+  .proj.feature h3{font-size:25px}
+  .sub{font-size:15px}
+  .stage-tag{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .js .reveal{transition:none;opacity:1;transform:none;filter:none}
+  html{scroll-behavior:auto}
+}
+</style>
+
+</head>
+<body>
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="progress" id="progress"></div>
+<div class="stage-tag" id="stageTag" aria-hidden="true">01 · WAVE</div>
+
+<section class="hero" data-stage="0" aria-label="Introduction">
+  <div class="wrap">
+    <!-- TODO: save the formal headshot as img/headshot.jpg (square, ~600px); initials show until then -->
+    <div class="avatar reveal" id="avatar"><img src="img/headshot.jpg" alt="La Min Oo" width="96" height="96"><span class="init" aria-hidden="true">LM</span></div>
+    <span class="pill reveal"><i></i>AI Engineer · Data Science · Bangkok</span>
+    <h1 class="reveal d1">I build AI that works inside <span class="grad">real products.</span></h1>
+    <p class="sub reveal d2">I'm La Min Oo (Zyne): LLM agents at NNPC Consulting, an AI assistant for a live retail business, and ML models from data to deployment. Computer Science &amp; Data Science graduate, January 2027.</p>
+    <div class="ctas reveal d3">
+      <a class="btn primary" href="#work">See my work <span>↓</span></a>
+      <!-- TODO: export the "AI Engineer" resume tab as PDF and save it as resume.pdf; the button hides itself until then -->
+      <a class="btn" id="cvBtn" href="resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+      <a class="btn" href="https://www.linkedin.com/in/la-min-oo-a318a039b" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn" href="https://github.com/Zylocope" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <div class="where reveal d4"><span>Open to relocation</span><span>Germany / EU</span><span>Singapore</span><span>Taiwan</span><span>Japan</span></div>
+  </div>
+  <div class="hint">SCROLL ↓</div>
+</section>
+
+<section class="numbers" data-stage="1" aria-label="In numbers and experience">
+  <div class="wrap">
+    <p class="label reveal">In numbers</p>
+    <h2 class="reveal d1">Everything pulls toward one thing: <span class="grad">shipping.</span></h2>
+    <div class="stats">
+      <div class="stat reveal d1"><b data-count="200" data-suffix="+">0</b><span>commits leading the Appleland frontend</span></div>
+      <div class="stat reveal d2"><b data-count="17">0</b><span>data tools behind its AI assistant</span></div>
+      <div class="stat reveal d3"><b data-count="71" data-suffix="%">0</b><span>held-out accuracy predicting pro esports drafts</span></div>
+      <div class="stat reveal d4"><b data-count="4">0</b><span>AI agents automating one company's departments</span></div>
+    </div>
+    <div class="now">
+      <article class="job reveal d1">
+        <span class="when">08/2026 – present</span>
+        <h3>AI Intern, AI Agents &amp; Automation</h3>
+        <p class="org">NNPC Consulting Co., Ltd. · Bangkok</p>
+        <ul>
+          <li>Multi-agent automation (customer service, marketing, sales, finance) in n8n with Qdrant retrieval, PostgreSQL audit logs and an on-premise Ollama LLM</li>
+          <li>Tenant isolation so each client's data stays separate</li>
+          <li>Hands-on evaluation of a knowledge-retrieval platform, embedded in a web page</li>
+        </ul>
+      </article>
+      <article class="job reveal d2">
+        <span class="when">Graduating 01/2027</span>
+        <h3>B.Sc. Computer Science</h3>
+        <p class="org">Assumption University · Bangkok · Data Science concentration</p>
+        <ul>
+          <li>Senior Project II: the Appleland admin system, built for a real business</li>
+          <li>Focus: machine learning, computer vision, data engineering</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="row" id="marquee">
+      <span>Python</span><i>✦</i><span>XGBoost</span><i>✦</i><span>TensorFlow Lite</span><i>✦</i><span>Gemini function calling</span><i>✦</i><span>n8n agents</span><i>✦</i><span>Qdrant</span><i>✦</i><span>React</span><i>✦</i><span>TypeScript</span><i>✦</i><span>Rust · Tauri</span><i>✦</i><span>FastAPI</span><i>✦</i><span>Three.js</span><i>✦</i>
+      <span>Python</span><i>✦</i><span>XGBoost</span><i>✦</i><span>TensorFlow Lite</span><i>✦</i><span>Gemini function calling</span><i>✦</i><span>n8n agents</span><i>✦</i><span>Qdrant</span><i>✦</i><span>React</span><i>✦</i><span>TypeScript</span><i>✦</i><span>Rust · Tauri</span><i>✦</i><span>FastAPI</span><i>✦</i><span>Three.js</span><i>✦</i>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="work" data-stage="2" aria-label="Selected work">
+  <div class="wrap">
+    <p class="label reveal">Selected work</p>
+    <h2 class="reveal d1">Projects that shipped, with the numbers to back them.</h2>
+    <!-- Screenshots: put images in img/projects/ with the names below (.jpg or .png, landscape ~1600x1000).
+         Live demos: paste the URL into the empty href of each "Live demo" link; empty ones hide themselves. -->
+    <div class="projects">
+      <article class="proj feature reveal d1">
+        <a class="shot" href="https://github.com/Zylocope/babyland_admin_dashboard" target="_blank" rel="noopener" style="--c1:#ff6a3d;--c2:#f5c04a" aria-label="Appleland Admin on GitHub">
+          <img src="img/projects/appleland.jpg" alt="Appleland Admin dashboard" loading="lazy"><span class="ph" aria-hidden="true"><b>Appleland</b><small>POS · Tickets · AI assistant</small></span></a>
+        <div class="body">
+          <div class="meta"><span>2026</span><span class="tag">Featured · In daily use</span></div>
+          <h3>Appleland Admin</h3>
+          <p>The admin system for a baby store and indoor playground in Naypyitaw, Myanmar, used daily by the shop's staff: point of sale with barcode scanning, QR playground tickets, FIFO stock and reports. Its AI assistant answers questions from live shop data using Gemini function calling over <span class="proof">17 read-only tools</span>, with answers drawn as charts. <span class="proof">200+ commits</span> as frontend lead.</p>
+          <span class="stack">React 19 · Vite · Tailwind · Gemini function calling · REST / OpenAPI</span>
+          <div class="plinks"><a class="demo" href="" target="_blank" rel="noopener">Live demo ↗</a><a href="https://github.com/Zylocope/babyland_admin_dashboard" target="_blank" rel="noopener">Code ↗</a></div>
+        </div>
+      </article>
+      <article class="proj reveal d1">
+        <a class="shot" href="https://github.com/Zylocope/LOL-game-analyzer" target="_blank" rel="noopener" style="--c1:#6c8cff;--c2:#b06cff" aria-label="Nexus Sight on GitHub">
+          <img src="img/projects/nexus-sight.jpg" alt="Nexus Sight draft prediction screen" loading="lazy"><span class="ph" aria-hidden="true"><b>71%</b><small>Nexus Sight · draft prediction</small></span></a>
+        <div class="body">
+          <div class="meta"><span>2025–2026</span><span class="tag">Live</span></div>
+          <h3>Nexus Sight</h3>
+          <p>Pre-game win probability for pro League of Legends from teams and draft, trained on pro games since 2018. On a <span class="proof">sealed 2026 test</span> (1,970 games, evaluated once) it gave better-calibrated probabilities than a tuned Elo baseline (log loss 0.634 vs 0.644) at 64.7% accuracy, after I found and removed target leakage that had inflated an earlier version. Live app with two modes, pro teams and Master+ ranked drafts, and warnings when a draft has rare picks or unusual roles.</p>
+          <span class="stack">XGBoost · FastAPI · React · TypeScript</span>
+          <div class="plinks"><a class="demo" href="https://lol-game-analyzer.onrender.com" target="_blank" rel="noopener">Live demo ↗</a><a href="https://github.com/Zylocope/LOL-game-analyzer" target="_blank" rel="noopener">Code ↗</a></div>
+        </div>
+      </article>
+      <article class="proj reveal d2">
+        <!-- TODO: point both links to the remastered SEEiT repo when it's ready -->
+        <a class="shot" href="https://github.com/Kinosaur/SEEiT-CV" target="_blank" rel="noopener" style="--c1:#4fd1a1;--c2:#6c8cff" aria-label="SEEiT-CV on GitHub">
+          <img src="img/projects/seeit.jpg" alt="SEEiT-CV detecting objects on a phone" loading="lazy"><span class="ph" aria-hidden="true"><b>SEEiT</b><small>On-device vision · offline</small></span></a>
+        <div class="body">
+          <div class="meta"><span>2025 · remaster 2026</span></div>
+          <h3>SEEiT-CV</h3>
+          <p>Real-time object detection for visually impaired users, running <span class="proof">fully on-device</span> with audio feedback that works offline. Trained with extra low-light data. Team project.</p>
+          <span class="stack">TensorFlow Lite · ML Kit · React Native · Android</span>
+          <div class="plinks"><a class="demo" href="" target="_blank" rel="noopener">Live demo ↗</a><a href="https://github.com/Kinosaur/SEEiT-CV" target="_blank" rel="noopener">Code ↗</a></div>
+        </div>
+      </article>
+      <article class="proj reveal d1">
+        <a class="shot" href="https://github.com/Zylocope/zyne-ai" target="_blank" rel="noopener" style="--c1:#b06cff;--c2:#ff6a3d" aria-label="Zyne on GitHub">
+          <img src="img/projects/zyne.jpg" alt="Zyne app on desktop and phone" loading="lazy"><span class="ph" aria-hidden="true"><b>Zyne</b><small>Windows · Android · one codebase</small></span></a>
+        <div class="body">
+          <div class="meta"><span>2026</span></div>
+          <h3>Zyne</h3>
+          <p>A focus and reading app from one codebase for Windows and Android, with Gemini features whose key never leaves the <span class="proof">Rust layer</span>, LAN sync and encrypted backups.</p>
+          <span class="stack">Tauri 2 · Rust · JavaScript · SQLite · Gemini</span>
+          <div class="plinks"><a class="demo" href="" target="_blank" rel="noopener">Live demo ↗</a><a href="https://github.com/Zylocope/zyne-ai" target="_blank" rel="noopener">Code ↗</a></div>
+        </div>
+      </article>
+      <article class="proj reveal d2">
+        <a class="shot" href="https://github.com/Zylocope/ai-trend-tracker" target="_blank" rel="noopener" style="--c1:#f5c04a;--c2:#4fd1a1" aria-label="AI Pulse on GitHub">
+          <img src="img/projects/ai-pulse.jpg" alt="AI Pulse hype-gap chart" loading="lazy"><span class="ph" aria-hidden="true"><b>34</b><small>AI Pulse · tools tracked daily</small></span></a>
+        <div class="body">
+          <div class="meta"><span>2026</span></div>
+          <h3>AI Pulse</h3>
+          <p>Tracks daily attention on 34 AI tools against their benchmark scores to find the <span class="proof">hype gap</span>. Updates itself every day.</p>
+          <span class="stack">Python · GitHub Actions · Google Trends · static web</span>
+          <div class="plinks"><a class="demo" href="" target="_blank" rel="noopener">Live demo ↗</a><a href="https://github.com/Zylocope/ai-trend-tracker" target="_blank" rel="noopener">Code ↗</a></div>
+        </div>
+      </article>
+      <article class="proj wide reveal d1">
+        <a class="shot" href="https://github.com/Zylocope/NLP_contribution_analyst" target="_blank" rel="noopener" style="--c1:#ff6a3d;--c2:#6c8cff" aria-label="Contribution Analyst on GitHub">
+          <img src="img/projects/contribution-analyst.jpg" alt="Contribution Analyst conversation graph" loading="lazy"><span class="ph" aria-hidden="true"><b>NLP</b><small>Who really contributes</small></span></a>
+        <div class="body">
+          <div class="meta"><span>2025</span></div>
+          <h3>Contribution Analyst</h3>
+          <p>Measures who really contributes in group projects from meeting transcripts, with semantic relevance, intent and conversation graphs.</p>
+          <span class="stack">Sentence-BERT · zero-shot · Streamlit</span>
+          <div class="plinks"><a class="demo" href="" target="_blank" rel="noopener">Live demo ↗</a><a href="https://github.com/Zylocope/NLP_contribution_analyst" target="_blank" rel="noopener">Code ↗</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="contact" data-stage="3" aria-label="Contact">
+  <div class="wrap">
+    <p class="label reveal">Open to work · 2027</p>
+    <div class="big grad" id="big">Let's build.</div>
+    <h2 class="reveal d1">Looking for AI engineering and data science roles.</h2>
+    <div class="ctas reveal d2">
+      <a class="btn primary" href="mailto:laminoo2001@gmail.com">laminoo2001@gmail.com <span>↗</span></a>
+      <a class="btn" href="https://www.linkedin.com/in/la-min-oo-a318a039b" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn" href="https://github.com/Zylocope" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <p class="avail reveal d3">Based in Bangkok. Open to relocating to Germany or elsewhere in the EU, Singapore, Taiwan or Japan.</p>
+  </div>
+</section>
+<footer>© <span id="yr">2026</span> La Min Oo · built with Three.js</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  const av = document.getElementById('avatar'), avImg = av.querySelector('img');
+  const noImg = () => av.classList.add('noimg');
+  avImg.addEventListener('error', noImg); if (avImg.complete && !avImg.naturalWidth) noImg();
+  const cv = document.getElementById('cvBtn');
+  if (location.protocol.startsWith('http')) fetch('resume.pdf', {method:'HEAD'}).then(r => { if (!r.ok) cv.remove() }).catch(() => cv.remove());
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  // project screenshots: try .jpg, then .png, then show the cover art
+  document.querySelectorAll('.shot img').forEach(img=>{
+    const shot = img.parentElement;
+    const fail = () => { if (img.src.endsWith('.jpg')) img.src = img.src.replace(/\.jpg$/, '.png'); else shot.classList.add('noimg'); };
+    img.addEventListener('error', fail); if (img.complete && !img.naturalWidth) fail();
+  });
+  // live demo buttons with no URL yet are removed
+  document.querySelectorAll('.plinks a.demo').forEach(a=>{ if (!a.getAttribute('href')) a.remove(); });
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- text reveals + number count-up ---------- */
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);
+      e.target.querySelectorAll('[data-count]').forEach(countUp); } });
+  }, {threshold:.15, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  // safety: never leave content hidden
+  setTimeout(()=>document.querySelectorAll('.reveal').forEach(el=>{ const r=el.getBoundingClientRect(); if(r.top<innerHeight) el.classList.add('in'); }), 1200);
+  function countUp(el){
+    const end = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now(), dur = reduce ? 0 : 1400;
+    (function step(now){ const k = dur ? Math.min(1,(now-t0)/dur) : 1, e = 1-Math.pow(2,-10*k);
+      el.textContent = Math.round(end*(k>=1?1:e)) + suf; if(k<1) requestAnimationFrame(step); })(t0);
+  }
+  document.querySelectorAll('.stat').forEach(s=>io.observe(s));
+
+  /* ---------- scroll state ---------- */
+  const sections = [...document.querySelectorAll('[data-stage]')];
+  const names = ['01 · WAVE','02 · VORTEX','03 · RING','04 · STARFIELD'];
+  const progress = document.getElementById('progress'), tag = document.getElementById('stageTag');
+  const marquee = document.getElementById('marquee'), big = document.getElementById('big');
+  let stageTarget = 0;
+  function onScroll(){
+    const y = scrollY, vh = innerHeight, max = document.documentElement.scrollHeight - vh;
+    progress.style.transform = `scaleX(${max>0 ? y/max : 0})`;
+    const mid = y + vh*0.5; let s = 0;
+    for(let i=0;i<sections.length;i++){
+      const top = sections[i].offsetTop, next = sections[i+1] ? sections[i+1].offsetTop : top + sections[i].offsetHeight;
+      if(mid >= top){ s = i + Math.min(1, Math.max(0, (mid - (next - vh*0.25)) / (vh*0.6))); }
+    }
+    stageTarget = Math.min(3, s);
+    tag.textContent = names[Math.round(stageTarget)];
+    marquee.style.transform = `translateX(${-(y*0.35) % (marquee.scrollWidth/2)}px)`;
+    const r = big.getBoundingClientRect(), k = Math.max(0, Math.min(1, 1 - r.top/vh));
+    big.style.transform = `scale(${0.82 + 0.18*k}) translateY(${(1-k)*40}px)`;
+    big.style.opacity = 0.25 + 0.75*k;
+  }
+  addEventListener('scroll', onScroll, {passive:true}); addEventListener('resize', onScroll); onScroll();
+
+  /* ---------- particle field with 4 shapes ---------- */
+  const canvas = document.getElementById('field');
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true}); }
+  catch(e){ canvas.style.background = 'radial-gradient(ellipse at 50% 80%, #1a2150, #05060c 70%)'; return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, 1, .1, 120);
+
+  const COLS = 240, ROWS = 130, N = COLS*ROWS, W = 64, D = 48;
+  const p0 = new Float32Array(N*3), p1 = new Float32Array(N*3), p2 = new Float32Array(N*3), p3 = new Float32Array(N*3), seed = new Float32Array(N);
+  for(let r=0, k=0; r<ROWS; r++) for(let c=0; c<COLS; c++, k++){
+    const s = Math.random(); seed[k] = s;
+    // 0 wave grid (x, 0, z)
+    p0[k*3] = (c/(COLS-1)-.5)*W; p0[k*3+2] = -(r/(ROWS-1))*D + 8;
+    // 1 vortex: stored as (radius, angle, depth jitter)
+    const rad = 0.25 + Math.pow(Math.random(), .7)*9.5;
+    p1[k*3] = rad; p1[k*3+1] = Math.random()*Math.PI*2; p1[k*3+2] = (Math.random()-.5)*1.4;
+    // 2 ring: (angle, radial jitter, thickness jitter)
+    p2[k*3] = Math.random()*Math.PI*2; p2[k*3+1] = (Math.random()+Math.random()+Math.random()-1.5)*0.55; p2[k*3+2] = (Math.random()-.5)*0.6;
+    // 3 starfield: random in a deep box, plus a galaxy band for some
+    if(Math.random() < .35){ const a = Math.random()*Math.PI*2, d = Math.random()*28;
+      p3[k*3] = (Math.random()-.5)*70; p3[k*3+1] = -4 + Math.sin(p3[k*3]*.08)*2 + (Math.random()-.5)*2.2; p3[k*3+2] = -10 - d; }
+    else { p3[k*3] = (Math.random()-.5)*90; p3[k*3+1] = (Math.random()-.5)*60; p3[k*3+2] = -5 - Math.random()*60; }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(p0,3));
+  geo.setAttribute('p1', new THREE.BufferAttribute(p1,3));
+  geo.setAttribute('p2', new THREE.BufferAttribute(p2,3));
+  geo.setAttribute('p3', new THREE.BufferAttribute(p3,3));
+  geo.setAttribute('seed', new THREE.BufferAttribute(seed,1));
+  const uniforms = {
+    uTime:{value:0}, uStage:{value:0}, uMouse:{value:new THREE.Vector2(0,-6)}, uPull:{value:0},
+    uCool:{value:new THREE.Color('#6c8cff')}, uWarm:{value:new THREE.Color('#ff6a3d')}, uPixel:{value:renderer.getPixelRatio()}, uRingX:{value:6}
+  };
+  const mat = new THREE.ShaderMaterial({
+    uniforms, transparent:true, depthWrite:false, blending:THREE.AdditiveBlending,
+    vertexShader:`
+      uniform float uTime, uStage, uPull, uPixel, uRingX; uniform vec2 uMouse;
+      attribute vec3 p1; attribute vec3 p2; attribute vec3 p3; attribute float seed;
+      varying float vT; varying float vA; varying float vFade; varying float vSeed;
+      float st(float s, float a){ float x = clamp(s - a, 0.0, 1.0); return x*x*(3.0-2.0*x); }
+      void main(){
+        // 0 wave
+        vec3 a = position;
+        float h = sin(a.x*0.22 + uTime*0.55)*0.9 + sin(a.z*0.31 - uTime*0.42)*0.7 + sin((a.x*0.6 + a.z*0.4) - uTime*0.9)*0.28;
+        h *= 0.6 + exp(-pow((a.z + 7.0)/6.0, 2.0))*1.1;
+        float d = distance(a.xz, uMouse);
+        h += sin(d*1.6 - uTime*3.5) * exp(-d*0.28) * 0.7 * uPull;
+        a.y = h - 1.6;
+        float t0 = clamp(smoothstep(-0.8,1.4,h)*0.65 + smoothstep(-22.0,22.0,a.x)*0.45, 0.0, 1.0);
+        // 1 vortex (spins faster near the centre)
+        float r = p1.x; float ang = p1.y + uTime*(0.9/(0.35 + r*0.35)) - r*0.35;
+        vec3 b = vec3(cos(ang)*r, 1.0 + sin(ang)*r*0.62, -5.0 + p1.z - r*0.25);
+        float t1 = smoothstep(9.5, 0.3, r);
+        // 2 energy ring (wobbling)
+        float th = p2.x;
+        float wob = sin(th*5.0 + uTime*1.3)*0.35 + sin(th*9.0 - uTime*2.1)*0.18 + sin(th*3.0 + uTime*0.7)*0.25;
+        float R = 6.2 + wob*1.2 + p2.y;
+        vec3 c = vec3(uRingX + cos(th)*R, 1.0 + sin(th)*R, -4.0 + p2.z);
+        float t2 = 0.5 + 0.5*sin(th + uTime*0.4);
+        // 3 starfield (slow drift toward camera)
+        vec3 e = p3; e.z = mod(e.z + uTime*0.8 + 65.0, 65.0) - 65.0 + 5.0;
+        float t3 = seed;
+        float s1 = st(uStage,0.0), s2 = st(uStage,1.0), s3 = st(uStage,2.0);
+        vec3 p = mix(mix(mix(a, b, s1), c, s2), e, s3);
+        vT = mix(mix(mix(t0, t1, s1), t2, s2), t3, s3);
+        float bright = mix(mix(mix(0.55 + smoothstep(-1.0,1.6,h)*0.6, 0.55 + t1*1.0, s1), 1.15 - abs(p2.y)*0.8, s2), 0.4 + seed*0.8, s3);
+        vec4 mv = modelViewMatrix * vec4(p,1.0);
+        gl_Position = projectionMatrix * mv;
+        float size = mix(1.2 + seed*1.4 + max(h,0.0)*0.9, 2.4 + seed*2.2, s1);
+        gl_PointSize = size * uPixel * (19.0 / -mv.z);
+        vA = bright; vSeed = seed;
+        vFade = smoothstep(60.0, 12.0, -mv.z) * smoothstep(0.6, 3.0, -mv.z);
+      }`,
+    fragmentShader:`
+      uniform vec3 uCool, uWarm; uniform float uTime;
+      varying float vT; varying float vA; varying float vFade; varying float vSeed;
+      void main(){
+        float r = length(gl_PointCoord - 0.5); if(r > 0.5) discard;
+        float soft = smoothstep(0.5, 0.0, r);
+        vec3 col = mix(uCool, uWarm, vT);
+        col = mix(col, vec3(1.0), smoothstep(0.85, 1.0, vT)*0.35);
+        float tw = 0.75 + 0.25*sin(uTime*2.0 + vSeed*40.0);
+        gl_FragColor = vec4(col, soft * vFade * tw * clamp(vA,0.0,1.4));
+      }`
+  });
+  scene.add(new THREE.Points(geo, mat));
+
+  function resize(){
+    const w = innerWidth, h = innerHeight;
+    renderer.setSize(w, h, false); camera.aspect = w/h;
+    camera.fov = w < 700 ? 72 : 55; camera.updateProjectionMatrix();
+    uniforms.uRingX.value = 0;
+  }
+  addEventListener('resize', resize); resize();
+
+  const target = new THREE.Vector2(0,-6); let pullTarget = 0;
+  addEventListener('pointermove', e=>{
+    const nx = e.clientX/innerWidth - .5, ny = e.clientY/innerHeight;
+    target.set(nx*34, -2 - (1-ny)*22); pullTarget = 1;
+  });
+  document.addEventListener('pointerleave', ()=>{ pullTarget = 0; });
+
+  const camA = {pos:new THREE.Vector3(0,2.6,12), look:new THREE.Vector3(0,-0.9,-6)};
+  const camB = {pos:new THREE.Vector3(0,1.0,12), look:new THREE.Vector3(0,1.0,-4)};
+  const camPos = new THREE.Vector3(), camLook = new THREE.Vector3();
+  const clock = new THREE.Clock();
+  (function loop(){
+    requestAnimationFrame(loop);
+    if(document.hidden) return;
+    const dt = Math.min(clock.getDelta(), .05);
+    uniforms.uTime.value += dt * (reduce ? .25 : 1);
+    uniforms.uStage.value += (stageTarget - uniforms.uStage.value) * Math.min(1, dt*3);
+    uniforms.uMouse.value.lerp(target, .06);
+    uniforms.uPull.value += (pullTarget*(1-Math.min(1,uniforms.uStage.value)) - uniforms.uPull.value) * .04;
+    const k = Math.min(1, uniforms.uStage.value);
+    camPos.lerpVectors(camA.pos, camB.pos, k); camLook.lerpVectors(camA.look, camB.look, k);
+    camPos.x += Math.sin(uniforms.uTime.value*.08)*1.2;
+    camera.position.copy(camPos); camera.lookAt(camLook);
+    renderer.render(scene, camera);
+  })();
+})();
+</script>
+
+</body>
+</html>
