@@ -185,7 +185,7 @@ footer{position:relative;z-index:2;font:12px var(--mono);color:var(--muted);text
     <div class="stats">
       <div class="stat reveal d1"><b data-count="200" data-suffix="+">0</b><span>commits leading the Appleland frontend</span></div>
       <div class="stat reveal d2"><b data-count="17">0</b><span>data tools behind its AI assistant</span></div>
-      <div class="stat reveal d3"><b data-count="71" data-suffix="%">0</b><span>held-out accuracy predicting pro esports drafts</span></div>
+      <div class="stat reveal d3"><b data-count="64.7" data-dec="1" data-suffix="%">0</b><span>accuracy on 1,970 sealed 2026 pro games, above a tuned Elo baseline</span></div>
       <div class="stat reveal d4"><b data-count="4">0</b><span>AI agents automating one company's departments</span></div>
     </div>
     <div class="now">
@@ -238,7 +238,7 @@ footer{position:relative;z-index:2;font:12px var(--mono);color:var(--muted);text
       </article>
       <article class="proj reveal d1">
         <a class="shot" href="https://github.com/Zylocope/LOL-game-analyzer" target="_blank" rel="noopener" style="--c1:#6c8cff;--c2:#b06cff" aria-label="Nexus Sight on GitHub">
-          <img src="img/projects/nexus-sight.jpg" alt="Nexus Sight draft prediction screen" loading="lazy"><span class="ph" aria-hidden="true"><b>71%</b><small>Nexus Sight · draft prediction</small></span></a>
+          <img src="img/projects/nexus-sight.jpg" alt="Nexus Sight draft prediction screen" loading="lazy"><span class="ph" aria-hidden="true"><b>64.7%</b><small>Nexus Sight · draft prediction</small></span></a>
         <div class="body">
           <div class="meta"><span>2025–2026</span><span class="tag">Live</span></div>
           <h3>Nexus Sight</h3>
@@ -342,7 +342,7 @@ footer{position:relative;z-index:2;font:12px var(--mono);color:var(--muted);text
   function countUp(el){
     const end = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now(), dur = reduce ? 0 : 1400;
     (function step(now){ const k = dur ? Math.min(1,(now-t0)/dur) : 1, e = 1-Math.pow(2,-10*k);
-      el.textContent = Math.round(end*(k>=1?1:e)) + suf; if(k<1) requestAnimationFrame(step); })(t0);
+      const dec = +(el.dataset.dec || 0), v = end*(k>=1?1:e); el.textContent = (dec ? v.toFixed(dec) : Math.round(v)) + suf; if(k<1) requestAnimationFrame(step); })(t0);
   }
   document.querySelectorAll('.stat').forEach(s=>io.observe(s));
 

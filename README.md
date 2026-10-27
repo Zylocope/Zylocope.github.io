@@ -1,28 +1,24 @@
 # zylocope.github.io
 
-Personal portfolio of La Min Oo (Zyne): AI engineer and data scientist.
-One static page: a Three.js particle field morphs through four shapes as you scroll
-(wave → vortex → ring → starfield) behind the content.
+Personal portfolio of **La Min Oo (Zyne)**: AI engineer and data scientist based in Bangkok.
 
-## Before going live
+**Live site:** https://zylocope.github.io
 
-- [ ] `img/headshot.jpg`: the formal headshot, square, about 600×600. Initials show until it exists.
-- [ ] `resume.pdf`: export the "AI Engineer" tab of the resume doc as PDF. The Résumé button hides itself until it exists.
-- [ ] After the first deploy: set `og:image` in `index.html` to an absolute URL.
+## Featured projects
 
-## Deploy on GitHub Pages
+| Project | What it is | Links |
+|---|---|---|
+| Nexus Sight | League of Legends draft analyzer for pro and Master+ ranked games, tested on sealed 2026 data | [Live](https://lol-game-analyzer.onrender.com) · [Video](https://youtu.be/6GZf-2aEbrc) · [Code](https://github.com/Zylocope/LOL-game-analyzer) |
+| Appleland Admin | POS, sales analytics and AI assistant for a real baby-products store | [Video](https://youtu.be/Gt8c3hdQUgg) · [Code](https://github.com/Zylocope/babyland_admin_dashboard) |
 
-1. On GitHub, create a **public** repo named exactly `Zylocope.github.io`.
-2. In this folder:
-   ```
-   git init
-   git add .
-   git commit -m "Portfolio v1"
-   git branch -M main
-   git remote add origin https://github.com/Zylocope/Zylocope.github.io.git
-   git push -u origin main
-   ```
-3. Repo → Settings → Pages → Source: "Deploy from a branch", branch `main`, folder `/ (root)`.
-4. After a minute it's live at **https://zylocope.github.io**.
+More projects are on the site and on [GitHub](https://github.com/Zylocope).
 
-`index-old.html` is the September 2026 version, kept for reference. Delete it whenever you like.
+## About this site
+
+One static page with no build step: HTML, CSS and a little JavaScript. A Three.js particle field morphs through four shapes as you scroll (wave → vortex → ring → starfield) behind the content. Hosted on GitHub Pages.
+
+To run it locally, open `index.html` in a browser, or serve the folder:
+
+```
+python -m http.server
+```
