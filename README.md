@@ -15,10 +15,4 @@ More projects are on the site and on [GitHub](https://github.com/Zylocope).
 
 ## About this site
 
-One static page with no build step: HTML, CSS and a few lines of JavaScript. The design follows the Studio theme from [Hallmark](https://github.com/Nutlope/hallmark): cool proof paper, Hedvig Letters Serif headings over Geist, crop marks on the photographs, one orange for actions. Hosted on GitHub Pages.
-
-To run it locally, open `index.html` in a browser, or serve the folder:
-
-```
-python -m http.server
-```
+A single HTML page hosted on GitHub Pages. To run it locally, open `index.html` in a browser.

@@ -15,11 +15,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Geist:wght@400;500&display=swap">
 <style>
-/* Hallmark v2.0.0 · redesign: full · theme: studio (deal: manual) · genre: editorial · job: hire · shape: Index-First, two cases opened · hero: Ledge, head on the left, the headshot crop-marked on the right · nav: edge-aligned wordmark, three text links, the email as the action (hire puts contact in the nav) · footer: one line · signature: the work index with Appleland and Nexus Sight opened as cases · surface: light only, by choice · check: manual, sloplint not run in this environment */
-/* critique · P4 H4 E4 S4 R4 V4 */
-/* Hallmark · dropped the Three.js particle field, scroll progress bar, stage tag, skill marquee, count-up stats and reveal blur · the owner asked to remove the generated look; every link, the résumé check, the image fallbacks and the demo-link cleanup stay */
-/* Hallmark · reworded "I build AI that works inside real products." to "AI that works inside real products." · 58 caps the hero head */
-/* Hallmark · Nexus Sight kept: it is the project's own name, not a cliché (19) */
 
 :root{
   --color-paper: oklch(97.2% 0.006 215); --color-paper-2: oklch(94% 0.009 215); --color-paper-hi: oklch(99% 0.004 215);
@@ -75,7 +70,7 @@ h3 { letter-spacing: -0.005em; }
   padding-right: max(var(--space-lg), env(safe-area-inset-right, 0px));
 }
 
-/* the proof ground: dot grid on the nav and hero only, fading before the work */
+/* dot grid behind the top of the page */
 .proof {
   background-image: radial-gradient(circle at 1px 1px, var(--color-dot) 1px, transparent 1.4px);
   background-size: 24px 24px;
@@ -84,7 +79,11 @@ h3 { letter-spacing: -0.005em; }
   position: absolute; inset: 0; z-index: -1; pointer-events: none;
 }
 
-/* crop marks: eight ticks off the corners of a printed piece */
+.vortex { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: none; }
+.has-vortex .vortex { display: block; }
+.has-vortex .proof { opacity: 0.45; }
+
+/* corner marks around photos */
 .crop { position: relative; --l: 10px; --o: 14px; }
 .crop::before {
   content: ""; position: absolute; inset: calc(-1 * var(--o)); pointer-events: none;
@@ -129,7 +128,7 @@ h3 { letter-spacing: -0.005em; }
 .nav li a:not(.btn) { font-weight: 500; font-size: var(--text-small); color: var(--color-ink-2); text-decoration: none; white-space: nowrap; }
 .nav li a:not(.btn):hover { color: var(--color-ink); text-decoration: underline; text-decoration-color: var(--color-accent); }
 
-/* hero: Ledge */
+/* hero */
 .hero {
   display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: var(--space-3xl);
   align-items: center; padding-block: var(--space-2xl) var(--space-4xl);
@@ -149,7 +148,7 @@ h3 { letter-spacing: -0.005em; }
 .section-head h2 { font-size: var(--text-section); }
 .section-head p { margin: 0; color: var(--color-muted); max-width: 52ch; }
 
-/* the work index */
+/* projects */
 .index { border-top: var(--rule-hair) solid var(--color-ink); }
 .case, .row { border-bottom: var(--rule-hair) solid var(--color-rule); }
 .case {
@@ -181,7 +180,7 @@ h3 { letter-spacing: -0.005em; }
 .row .stack { display: block; margin-top: var(--space-2xs); }
 .row .links { margin: 0; justify-content: flex-end; }
 
-/* experience ledger */
+/* experience */
 .ledger { border-top: var(--rule-hair) solid var(--color-ink); }
 .entry { display: grid; grid-template-columns: 7rem minmax(0, 3fr) minmax(0, 5fr); gap: var(--space-lg); padding-block: var(--space-xl); border-bottom: var(--rule-hair) solid var(--color-rule); }
 .entry h3 { font-size: var(--text-item); }
@@ -192,7 +191,7 @@ h3 { letter-spacing: -0.005em; }
 .tools h3 { font-size: 1.25rem; padding-bottom: var(--space-sm); border-bottom: var(--rule-hair) solid var(--color-ink); margin-bottom: var(--space-sm); }
 .tools p { margin: 0; }
 
-/* contact: the one ink band */
+/* contact */
 .contact { background: var(--color-band); color: var(--color-band-muted); padding-block: var(--space-4xl) var(--space-3xl); }
 .contact h2 { color: var(--color-band-ink); font-size: var(--text-section); max-width: 16ch; }
 .contact-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--space-3xl); align-items: end; }
@@ -229,6 +228,7 @@ footer { margin-top: var(--space-4xl); padding-top: var(--space-lg); border-top:
 
 <header class="top">
   <div class="proof" aria-hidden="true"></div>
+  <canvas class="vortex" id="vortex" aria-hidden="true"></canvas>
   <div class="container">
     <nav class="nav" aria-label="Main">
       <a class="wordmark" href="#">La Min Oo</a>
@@ -242,8 +242,8 @@ footer { margin-top: var(--space-4xl); padding-top: var(--space-lg); border-top:
 
     <section class="hero" aria-label="Introduction">
       <div>
-        <h1>AI that works inside real products.</h1>
-        <p class="lede">I'm La Min Oo (Zyne), an AI engineer and data scientist in Bangkok, graduating January 2027.</p>
+        <h1>AI engineer and data scientist</h1>
+        <p class="lede">I'm La Min Oo (Zyne). I build machine learning models and AI agents in Bangkok.</p>
         <div class="actions">
           <a class="btn btn--primary" href="#work">See my work</a>
           <!-- TODO: export the "AI Engineer" resume tab as PDF and save it as resume.pdf; the button hides itself until then -->
@@ -253,7 +253,6 @@ footer { margin-top: var(--space-4xl); padding-top: var(--space-lg); border-top:
       </div>
       <figure class="portrait" id="avatar">
         <div class="crop"><img src="img/headshot.jpg" alt="La Min Oo" width="640" height="640" fetchpriority="high"></div>
-        <figcaption>Open to relocating to Germany or the EU, Singapore, Taiwan or Japan.</figcaption>
       </figure>
     </section>
   </div>
@@ -424,6 +423,59 @@ footer { margin-top: var(--space-4xl); padding-top: var(--space-lg); border-top:
     const fail = () => { if (img.src.endsWith('.jpg')) img.src = img.src.replace(/\.jpg$/, '.png'); else fig.remove(); };
     img.addEventListener('error', fail); if (img.complete && !img.naturalWidth) fail();
   });
+  // background animation: dots spiralling slowly into the photo
+  (function(){
+    const canvas = document.getElementById('vortex'), top = document.querySelector('.top');
+    const ctx = canvas.getContext && canvas.getContext('2d'); if (!ctx) return;
+    const css = getComputedStyle(document.documentElement);
+    const INK = css.getPropertyValue('--color-ink').trim(), ACCENT = css.getPropertyValue('--color-accent').trim();
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let W = 0, H = 0, cx = 0, cy = 0, R = 0, R0 = 40, dpr = 1, parts = [], running = false, last = 0;
+    function centre(){
+      const t = top.getBoundingClientRect(), img = document.querySelector('.portrait:not(.noimg) img');
+      if (img) { const r = img.getBoundingClientRect(); cx = r.left + r.width / 2 - t.left; cy = r.top + r.height / 2 - t.top; R0 = r.width * 0.42; }
+      else { cx = W * 0.72; cy = H * 0.5; }
+      R = Math.max(W - cx, cx, H) * 0.95;
+    }
+    function spawn(p, fresh){
+      p.r = fresh ? R0 + Math.pow(Math.random(), 1.5) * (R - R0) : R * (0.85 + Math.random() * 0.15);
+      p.a = Math.random() * Math.PI * 2; p.s = 0.6 + Math.random() * 0.9; p.hot = Math.random() < 0.04;
+    }
+    function resize(){
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      W = top.clientWidth; H = top.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      centre();
+      const n = W < 700 ? 700 : 1600;
+      parts = Array.from({length: n}, () => { const p = {}; spawn(p, true); return p; });
+    }
+    function draw(dt){
+      ctx.clearRect(0, 0, W, H);
+      for (const p of parts){
+        p.a += dt * p.s * 38 / (p.r + 60);
+        p.r -= dt * (5 + 700 / (p.r - R0 + 40));
+        if (p.r < R0) spawn(p, false);
+        const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r * 0.62;
+        if (x < -4 || x > W + 4 || y < -4 || y > H + 4) continue;
+        const k = Math.max(0, 1 - (p.r - R0) / (R - R0));
+        ctx.globalAlpha = p.hot ? 0.8 : 0.1 + k * 0.5;
+        ctx.fillStyle = p.hot ? ACCENT : INK;
+        const s = p.hot ? 2.2 : 1.2 + k * 1.1;
+        ctx.fillRect(x - s / 2, y - s / 2, s, s);
+      }
+    }
+    function loop(now){
+      if (!running) return;
+      const dt = Math.min((now - last) / 1000, 0.05); last = now;
+      draw(dt); requestAnimationFrame(loop);
+    }
+    function start(){ if (running || still) return; running = true; last = performance.now(); requestAnimationFrame(loop); }
+    resize(); document.documentElement.classList.add('has-vortex'); draw(0);
+    if (!still) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !document.hidden) start(); else running = false; })).observe(top);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) running = false; else start(); });
+    addEventListener('resize', () => { resize(); draw(0); });
+    const pimg = document.querySelector('.portrait img'); if (pimg && !pimg.complete) pimg.addEventListener('load', () => { centre(); draw(0); });
+  })();
   // live demo links with no URL yet are removed
   document.querySelectorAll('a.demo').forEach(a => { if (!a.getAttribute('href')) a.remove(); });
 })();
